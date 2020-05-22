@@ -27,6 +27,7 @@ http.createServer((req, res) => {
     del
   } = URL.parse(req.url, true).query
 
+
   res.writeHead(200, {
     'Access-Control-Allow-Origin': '*'
   })
@@ -37,7 +38,8 @@ http.createServer((req, res) => {
     return res.end(JSON.stringify(data))
 
   if (del) {
-    data.urls = data.urls.filter(item => String(item.url) !== String(url))
+    data.urls = data.urls.filter(item => item.url !== url)
+
     return writeFile((message) => res.end(message))
   }
 
@@ -45,6 +47,7 @@ http.createServer((req, res) => {
     name,
     url
   })
+
 
   return writeFile((message) => res.end(message))
 }).listen(3000, () => console.log('Api is running'))

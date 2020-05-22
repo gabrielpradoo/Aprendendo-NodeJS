@@ -2,6 +2,8 @@ const ul = document.querySelector("ul")
 const input = document.querySelector("input")
 const form = document.querySelector('form')
 
+
+
 async function load() {
   const res = await fetch('http://localhost:3000').then((data) => data.json())
 
@@ -13,6 +15,12 @@ async function load() {
     url
   }))
 }
+
+/* async function remove() {
+  await fetch(`http://localhost:3000/name=${name}&url=${url}&del=1`).then(data => data.json()).then(data => console.log(data))
+}
+
+remove() */
 
 load()
 
@@ -29,16 +37,26 @@ function addElement({
   a.target = "_blank"
 
   trash.innerHTML = "x"
-  trash.onclick = () => removeElement(trash)
+  trash.onclick = () => removeElement(trash, a.href, a.innerHTML)
 
   li.append(a)
   li.append(trash)
   ul.append(li)
+
 }
 
-function removeElement(el) {
-  if (confirm('Tem certeza que deseja deletar?'))
+function removeElement(el, url, name) {
+  const thisName = name
+  const thisUrl = url
+  const del = 1
+
+  if (confirm('Tem certeza que deseja deletar?')) {
+    fetch(`http://localhost:3000/?name=${thisName}&url=${thisUrl}&del=${del}`)
     el.parentNode.remove()
+  }
+
+
+
 }
 
 form.addEventListener("submit", (event) => {
