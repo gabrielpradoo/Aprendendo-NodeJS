@@ -2,7 +2,7 @@ const ul = document.querySelector("ul")
 const input = document.querySelector("input")
 const form = document.querySelector('form')
 
-
+const res = fetch('http://localhost:3000').then((data) => data.json())
 
 async function load() {
   const res = await fetch('http://localhost:3000').then((data) => data.json())
@@ -16,11 +16,9 @@ async function load() {
   }))
 }
 
-/* async function remove() {
-  await fetch(`http://localhost:3000/name=${name}&url=${url}&del=1`).then(data => data.json()).then(data => console.log(data))
+function newCard(name, url) {
+  fetch(`http://localhost:3000/?name=${name}&url=${url}`).then(res => res.json).then(res => res)
 }
-
-remove() */
 
 load()
 
@@ -42,6 +40,8 @@ function addElement({
   li.append(a)
   li.append(trash)
   ul.append(li)
+
+
 
 }
 
@@ -71,6 +71,8 @@ form.addEventListener("submit", (event) => {
 
   const [name, url] = value.split(",")
 
+  newCard(name, url)
+
   if (!url)
     return alert('formate o texto da maneira correta')
 
@@ -81,6 +83,8 @@ form.addEventListener("submit", (event) => {
     name,
     url
   })
+
+
 
   input.value = ""
 })
